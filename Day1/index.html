@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Profile Card</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <button id="themeToggle" class="theme-btn">
+    🌙 Dark Mode
+  </button>
+
+  <main class="container">
+
+    <section class="profile-card">
+
+      <div class="profile-header">
+        <img src="https://i.pravatar.cc/300?img=12" alt="Profile Picture">
+      </div>
+
+      <div class="profile-content">
+
+        <h1>Sanskar Gupta</h1>
+        <h3>MERN Stack Intern</h3>
+
+        <p>
+          Passionate Full Stack Developer exploring modern web technologies.
+          Skilled in JavaScript, React, Node.js, MongoDB and responsive UI development.
+          Always eager to learn and build impactful digital experiences.
+        </p>
+
+        <div class="stats">
+          <div class="stat-box">
+            <h2>12</h2>
+            <span>Projects</span>
+          </div>
+
+          <div class="stat-box">
+            <h2>350+</h2>
+            <span>Hours</span>
+          </div>
+
+          <div class="stat-box">
+            <h2>5</h2>
+            <span>Skills</span>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button class="primary-btn">Contact Me</button>
+          <button class="secondary-btn">Portfolio</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById("themeToggle");
+
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+
+      if (document.body.classList.contains("dark")) {
+        toggleBtn.innerHTML = "☀️ Light Mode";
+      } else {
+        toggleBtn.innerHTML = "🌙 Dark Mode";
+      }
+    });
+  </script>
+
+</body>
+</html>
