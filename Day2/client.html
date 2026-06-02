@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+  <head>
+    <title>API Client Testing</title>
+    <style>
+        button{
+    background:#007bff;
+    color:white;
+    border:none;
+    padding:18px 40px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:20px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0056b3;
+    transform:scale(1.05);
+}
+    </style>
+  </head>
+
+  <body>
+    <h1>API Client Testing</h1>
+
+    <button onclick="fetchUsers() ">Fetch Users</button>
+
+    <script>
+      async function fetchUsers() {
+        try {
+          const response = await fetch("http://localhost:3000/users");
+
+          const result = await response.json();
+
+          console.clear();
+          console.group("📊 Summary");
+
+          console.log("Total Users :", result.summary.totalUsers);
+          console.log("Valid Users :", result.summary.validUsers);
+          console.log("Timestamp   :", result.timestamp);
+
+          console.groupEnd();
+
+          console.group("✅ Eligible Users");
+
+          console.table(
+            result.data.map((user) => ({
+              ID: user.id,
+              Name: user.name,
+              Age: user.age,
+              Status: user.isActive ? "Active" : "Inactive",
+            })),
+          );
+
+          console.groupEnd();
+
+          console.log(
+            "%c✔ Data fetched successfully!",
+            "color:green; font-weight:bold;",
+          );
+        } catch (error) {
+          console.error(
+            "%c❌ Error Fetching Data",
+            "color:red; font-size:14px; font-weight:bold;",
+          );
+
+          console.error(error);
+        }
+      }
+    </script>
+  </body>
+</html>
