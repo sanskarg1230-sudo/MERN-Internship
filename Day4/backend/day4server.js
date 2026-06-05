@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const errorHandler = require("./errorhandler");
 const mongoose = require("mongoose");
 const User = require("./Users");
 
@@ -27,7 +28,7 @@ app.get("/", (req, res) => {
   res.send("Day 4 Server Running");
 });
 
-app.get("/users", async (req, res) => {
+app.get("/users", async (req, res, next) => {
   try {
     const users = await User.find();
 
@@ -49,12 +50,13 @@ app.get("/users", async (req, res) => {
       data: users,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
+    next(error);
   }
 });
+app.get("/test-error", (req, res, next) => {
+  next(new Error("Day 4 Test Error"));
+});
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(
