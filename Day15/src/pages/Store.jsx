@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
@@ -11,6 +12,7 @@ function Store() {
   const { addToCart } = useCart();
   const { addToWishlist } = useWishlist();
   const { categories } = useCategories();
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
@@ -164,6 +166,31 @@ function Store() {
                         Add To Wishlist
                       </button>
                     </div>
+
+                    <button
+                      className="reviews-btn"
+                      onClick={() => {
+                        navigate(`/product/${product._id}`);
+                      }}
+                      style={{
+                        background: "linear-gradient(135deg, #0f766e, #0d9488)",
+                        color: "white",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        width: "100%",
+                        marginTop: "12px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "6px",
+                        boxShadow: "0 2px 4px rgba(13, 148, 136, 0.2)",
+                        transition: "all 0.2s ease"
+                      }}
+                    >
+                      ⭐ Reviews & Ratings
+                    </button>
                   </div>
                 </div>
               ))}

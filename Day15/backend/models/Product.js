@@ -22,6 +22,32 @@ const productSchema = new mongoose.Schema(
       ref: "Category",
       required: true,
     },
+
+    description: {
+      type: String,
+      default: "Discover the amazing features of this high-quality product, designed to provide exceptional performance, durability, and value for your everyday needs.",
+    },
+
+    image: {
+      type: String,
+      default: "",
+    },
+
+    averageRating: {
+      type: Number,
+      default: 0,
+    },
+
+    totalReviews: {
+      type: Number,
+      default: 0,
+    },
+
+    status: {
+      type: String,
+      enum: ["Active", "Inactive"],
+      default: "Active",
+    },
   },
   {
     timestamps: true,

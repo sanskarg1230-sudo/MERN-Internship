@@ -7,6 +7,7 @@ import { ProductProvider } from "./context/ProductContext";
 import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { OrderProvider } from "./context/OrderContext";
+import { PaymentProvider } from "./context/PaymentContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
@@ -18,6 +19,10 @@ import OrderHistoryPage from "./pages/OrderHistoryPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
+import AdminReviewsPage from "./pages/AdminReviewsPage";
+import PaymentPage from "./pages/PaymentPage";
+import PaymentHistory from "./pages/PaymentHistory";
 import "./App.css";
 
 function App() {
@@ -29,28 +34,38 @@ function App() {
             <CartProvider>
               <WishlistProvider>
                 <OrderProvider>
-                  <Navbar />
-                  <Routes>
-                    {/* Public Auth Routes */}
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
+                  <PaymentProvider>
+                    <Navbar />
+                    <Routes>
+                      {/* Public Auth Routes */}
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/register" element={<RegisterPage />} />
+                      <Route path="/product/:id" element={<ProductDetailsPage />} />
 
-                    {/* Protected Customer Routes */}
-                    <Route element={<ProtectedRoute customerOnly={true} />}>
-                      <Route path="/store" element={<Store />} />
-                      <Route path="/cart" element={<CartPage />} />
-                      <Route path="/wishlist" element={<WishlistPage />} />
-                      <Route path="/checkout" element={<CheckoutPage />} />
-                      <Route path="/orders" element={<OrderHistoryPage />} />
-                    </Route>
+                      {/* Protected Customer Routes */}
+                      <Route element={<ProtectedRoute customerOnly={true} />}>
+                        <Route path="/store" element={<Store />} />
+                        <Route path="/cart" element={<CartPage />} />
+                        <Route path="/wishlist" element={<WishlistPage />} />
+                        <Route path="/checkout" element={<CheckoutPage />} />
+                        <Route path="/orders" element={<OrderHistoryPage />} />
+                        <Route path="/payment" element={<PaymentPage />} />
+                      </Route>
 
-                    {/* Protected Admin Routes */}
-                    <Route element={<ProtectedRoute adminOnly={true} />}>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/admin/orders" element={<AdminOrdersPage />} />
-                    </Route>
-                  </Routes>
-                  <ToastContainer position="top-right" autoClose={2000} />
+                      {/* Protected Generic Routes (Customer & Admin) */}
+                      <Route element={<ProtectedRoute />}>
+                        <Route path="/payment/history" element={<PaymentHistory />} />
+                      </Route>
+
+                      {/* Protected Admin Routes */}
+                      <Route element={<ProtectedRoute adminOnly={true} />}>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route path="/admin/orders" element={<AdminOrdersPage />} />
+                        <Route path="/admin/reviews" element={<AdminReviewsPage />} />
+                      </Route>
+                    </Routes>
+                    <ToastContainer position="top-right" autoClose={2000} />
+                  </PaymentProvider>
                 </OrderProvider>
               </WishlistProvider>
             </CartProvider>

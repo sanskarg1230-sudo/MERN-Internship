@@ -42,8 +42,18 @@ app.use(
 );
 
 app.use(
+  "/api/reviews",
+  require("./routes/reviewRoutes")
+);
+
+app.use(
   "/api/orders",
   require("./routes/orderRoutes")
+);
+
+app.use(
+  "/api/payment",
+  require("./routes/paymentRoutes")
 );
 
 app.use(

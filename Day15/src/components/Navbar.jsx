@@ -59,6 +59,12 @@ function Navbar() {
                 <Link to="/admin/orders" className="navbar-link admin-nav-link">
                   Orders 🛡️
                 </Link>
+                <Link to="/payment/history" className="navbar-link admin-nav-link" style={{ background: "#4f46e5", color: "white", padding: "6px 12px", borderRadius: "6px", marginLeft: "4px" }}>
+                  Payments 🛡️
+                </Link>
+                <Link to="/admin/reviews" className="navbar-link admin-nav-link" style={{ background: "#0f766e", color: "white", padding: "6px 12px", borderRadius: "6px", marginLeft: "4px" }}>
+                  Manage Reviews 🛡️
+                </Link>
               </>
             ) : (
               // Customer Logged In Links
@@ -83,6 +89,10 @@ function Navbar() {
 
                 <Link to="/orders" className="navbar-link">
                   Orders
+                </Link>
+
+                <Link to="/payment/history" className="navbar-link">
+                  Payments
                 </Link>
               </>
             )

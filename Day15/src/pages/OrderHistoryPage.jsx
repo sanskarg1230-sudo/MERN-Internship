@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useOrders } from "../context/OrderContext";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import OrderDetailsModal from "../components/OrderDetailsModal";
 import "../App.css";
@@ -13,6 +14,14 @@ function OrderHistoryPage() {
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  const isOrderPaid = (order) => {
+    if (order.paymentMethod === "Cash on Delivery") {
+      return order.status === "Delivered";
+    }
+    // Online payments (UPI or Card)
+    return ["Processing", "Shipped", "Delivered"].includes(order.status);
+  };
 
   const handleCancel = async (id) => {
     if (window.confirm("Are you sure you want to cancel this order?")) {
@@ -156,6 +165,24 @@ function OrderHistoryPage() {
                       <span className="info-label">Ship To</span>
                       <span className="info-value">{order.customerDetails.name}</span>
                     </div>
+                    <div className="summary-info-item">
+                      <span className="info-label">Payment Status</span>
+                      <span className="info-value" style={{ 
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        fontWeight: "700",
+                        color: isOrderPaid(order) ? "#059669" : "#dc2626" 
+                      }}>
+                        <span style={{ 
+                          width: "8px", 
+                          height: "8px", 
+                          borderRadius: "50%", 
+                          backgroundColor: isOrderPaid(order) ? "#10b981" : "#ef4444" 
+                        }}></span>
+                        {isOrderPaid(order) ? "Paid" : (order.paymentMethod === "Cash on Delivery" ? "COD (Unpaid)" : "Unpaid")}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="order-card-actions">
@@ -165,6 +192,24 @@ function OrderHistoryPage() {
                     >
                       View Details
                     </button>
+                    {!isOrderPaid(order) && order.status === "Pending" && order.paymentMethod !== "Cash on Delivery" && (
+                      <Link to={`/payment?orderId=${order._id}`}>
+                        <button
+                          className="view-details-btn"
+                          style={{
+                            background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
+                            color: "white",
+                            border: "none",
+                            padding: "8px 16px",
+                            cursor: "pointer",
+                            fontWeight: "600",
+                            borderRadius: "6px"
+                          }}
+                        >
+                          Pay Now 💳
+                        </button>
+                      </Link>
+                    )}
                     {order.status === "Pending" && (
                       <button
                         className="cancel-order-btn"

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useOrders } from "../context/OrderContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "../App.css";
 
 function CheckoutPage() {
   const { cart, fetchCart } = useCart();
   const { placeOrder } = useOrders();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -62,10 +63,15 @@ function CheckoutPage() {
     const res = await placeOrder(orderData);
 
     if (res.success) {
-      toast.success("Order Placed Successfully! 🎉");
-      setPlacedOrder(res.order);
-      setShowSuccessModal(true);
       fetchCart(); // reload/empty frontend cart
+      if (paymentMethod === "Cash on Delivery") {
+        toast.success("Order Placed Successfully! 🎉");
+        setPlacedOrder(res.order);
+        setShowSuccessModal(true);
+      } else {
+        toast.success("Order Placed! Redirecting to secure payment... 💳");
+        navigate(`/payment?orderId=${res.order._id}`);
+      }
     } else {
       toast.error(res.message || "Failed to place order.");
     }

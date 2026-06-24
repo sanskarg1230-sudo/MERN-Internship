@@ -12,6 +12,7 @@ function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "customer",
   });
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +23,7 @@ function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password, confirmPassword } = formData;
+    const { name, email, password, confirmPassword, role } = formData;
 
     if (!name || !email || !password || !confirmPassword) {
       toast.error("Please fill in all registration fields.");
@@ -35,7 +36,7 @@ function RegisterPage() {
     }
 
     setLoading(true);
-    const res = await register(name, email, password);
+    const res = await register(name, email, password, role);
     setLoading(false);
 
     if (res.success) {
@@ -131,7 +132,29 @@ function RegisterPage() {
                 </div>
               </div>
 
-
+              <div className="form-group" style={{ marginTop: "15px" }}>
+                <label htmlFor="role">Register As</label>
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className="auth-select"
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "1px solid #dbe2ea",
+                    borderRadius: "8px",
+                    backgroundColor: "white",
+                    fontSize: "15px",
+                    outline: "none",
+                    cursor: "pointer"
+                  }}
+                >
+                  <option value="customer">User (Normal Account)</option>
+                  <option value="admin">Admin (Staff Account)</option>
+                </select>
+              </div>
 
               <button type="submit" className="auth-submit-btn" disabled={loading}>
                 {loading ? "Creating Account..." : "Create Account"}
